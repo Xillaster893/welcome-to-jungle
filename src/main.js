@@ -8,7 +8,14 @@ import {
   stepGame,
   togglePause,
 } from "./snakeLogic.js";
+// 🔊 FORCE LOAD SOUNDS (GitHub Pages fix)
+let biteSoundPool = [
+  new Audio("assets/bite-crunch.wav"),
+  new Audio("assets/bite-crunch.wav"),
+  new Audio("assets/bite-crunch.wav")
+];
 
+let gameOverSound = new Audio("assets/gameover.wav");
 const boardElement = document.querySelector("#game-board");
 const scoreElement = document.querySelector("#score");
 const levelElement = document.querySelector("#level");
