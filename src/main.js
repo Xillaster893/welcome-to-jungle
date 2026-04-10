@@ -1,40 +1,95 @@
-import {
-  GRID_SIZE,
-  createInitialState,
-  getCellType,
-  getLevel,
-  getTickInterval,
-  queueDirection,
-  stepGame,
-  togglePause,
-} from "./snakeLogic.js";
-// 🔊 FORCE LOAD SOUNDS (GitHub Pages fix)
-let biteSoundPool = [
-  new Audio("assets/bite-crunch.wav"),
-  new Audio("assets/bite-crunch.wav"),
-  new Audio("assets/bite-crunch.wav")
-];
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Snake</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <section class="game-shell" aria-labelledby="game-title">
+        <header class="game-header">
+          <div>
+            <p class="eyebrow">Classic Arcade</p>
+            <h1 id="game-title">Snake</h1>
+          </div>
+          <div class="scoreboard" aria-live="polite">
+            <div class="score-chip">
+              <span>Score</span>
+              <strong id="score">0</strong>
+            </div>
+            <div class="score-chip level-chip">
+              <span>Level</span>
+              <strong id="level">1</strong>
+            </div>
+            <div class="score-chip high-score-chip">
+              <span>Best</span>
+              <strong id="high-score">0</strong>
+            </div>
+            <div class="score-chip zone-chip">
+              <span>Zone</span>
+              <strong id="zone-name">Light Jungle</strong>
+            </div>
+          </div>
+        </header>
 
-let gameOverSound = new Audio("assets/gameover.wav");
-const boardElement = document.querySelector("#game-board");
-const scoreElement = document.querySelector("#score");
-const levelElement = document.querySelector("#level");
-const highScoreElement = document.querySelector("#high-score");
-const zoneNameElement = document.querySelector("#zone-name");
-const statusElement = document.querySelector("#status");
-const statusCardElement = document.querySelector(".status-card");
-const shellElement = document.querySelector(".game-shell");
-const soundButton = document.querySelector("#sound-button");
-const pauseButton = document.querySelector("#pause-button");
-const restartButton = document.querySelector("#restart-button");
-const controlButtons = document.querySelectorAll("[data-direction]");
-const leafLayerElement = document.querySelector("#leaf-layer");
-const snakeLayerElement = document.querySelector("#snake-layer");
-const trailLayerElement = document.querySelector("#trail-layer");
-const atmosphereLayerElement = document.querySelector("#atmosphere-layer");
-const celebrationElement = document.querySelector("#celebration");
-const levelBannerElement = document.querySelector("#level-banner");
-const startOverlayElement = document.querySelector("#start-overlay");
+        <div class="status-row status-card">
+          <p id="status">Press any arrow key or WASD to start.</p>
+          <div class="actions">
+            <button id="sound-button" type="button" aria-pressed="false">Sound On</button>
+            <button id="pause-button" type="button">Pause</button>
+            <button id="restart-button" type="button">Restart</button>
+          </div>
+        </div>
+
+        <div
+          id="game-board"
+          class="game-board"
+          role="grid"
+          aria-label="Snake game board"
+        >
+          <div id="leaf-layer" class="leaf-layer" aria-hidden="true"></div>
+          <div id="start-overlay" class="start-overlay" aria-hidden="false">
+            <p class="start-kicker">Nature Run</p>
+            <h2 class="start-title">Welcome to Jungle</h2>
+            <p class="start-message">The hunt begins...</p>
+            <p class="start-prompt">Press any key to start</p>
+          </div>
+          <div id="snake-layer" class="snake-layer" aria-hidden="true"></div>
+          <div id="trail-layer" class="trail-layer" aria-hidden="true"></div>
+          <div id="atmosphere-layer" class="atmosphere-layer" aria-hidden="true"></div>
+          <div id="celebration" class="celebration-banner" aria-hidden="true">
+            New High Score!
+          </div>
+          <div id="level-banner" class="level-banner" aria-hidden="true">
+            Level 1
+          </div>
+          <div id="game-overlay" class="game-overlay" aria-hidden="true">
+            <p class="overlay-kicker">Session Complete</p>
+            <h2 id="overlay-title">Run Over</h2>
+            <p id="overlay-message"></p>
+          </div>
+        </div>
+
+        <div class="controls" aria-label="Touch controls">
+          <button type="button" data-direction="up">Up</button>
+          <div class="controls-row">
+            <button type="button" data-direction="left">Left</button>
+            <button type="button" data-direction="down">Down</button>
+            <button type="button" data-direction="right">Right</button>
+          </div>
+        </div>
+
+        <p class="hint">
+          Controls: Arrow keys or WASD. Press Space to pause or resume.
+        </p>
+      </section>
+    </main>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>const startOverlayElement = document.querySelector("#start-overlay");
 const overlayElement = document.querySelector("#game-overlay");
 const overlayTitleElement = document.querySelector("#overlay-title");
 const overlayMessageElement = document.querySelector("#overlay-message");
